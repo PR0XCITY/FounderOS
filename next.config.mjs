@@ -17,7 +17,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
-  // Environment-specific configuration
+  // Environment-specific configuration for Replit
   ...(process.env.NODE_ENV === 'development' && {
     allowedDevOrigins: ['*'],
   }),

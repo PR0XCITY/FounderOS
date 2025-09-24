@@ -1,20 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["iad1"],
-  "functions": {
-    "app/api/validate-idea/route.ts": {
-      "memory": 1024,
-      "maxDuration": 30
-    },
-    "app/api/generate-mvp/route.ts": {
-      "memory": 1024,
-      "maxDuration": 30
-    },
-    "app/api/generate-pitch-deck/route.ts": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
   "cleanUrls": true,
   "trailingSlash": false
 }
