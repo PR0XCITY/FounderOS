@@ -1,22 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Production-ready configuration
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
-    unoptimized: true,
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
+    domains: ['8370a27e-c096-47ef-9e2d-37f4045b970c-00-tpng4v0citqz.janeway.replit.dev'],
   },
-  // Performance optimizations
+  
+  // Performance optimizations for Vercel
   compress: true,
   poweredByHeader: false,
   
-  // Replit environment configuration - allow all dev origins for proxy
-  allowedDevOrigins: ['*'],
+  // Environment-specific configuration
+  ...(process.env.NODE_ENV === 'development' && {
+    allowedDevOrigins: ['*'],
+  }),
   
   async headers() {
     return [
@@ -24,20 +28,34 @@ const nextConfig = {
         source: '/(.*)',
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate',
-          },
-          {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
           {
-            key: 'X-Frame-Options',
+            key: 'X-Frame-Options', 
             value: 'SAMEORIGIN',
           },
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          },
+        ],
+      },
+      {
+        source: '/((?!api).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
