@@ -15,6 +15,11 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // Replit environment configuration
+  experimental: {
+    allowedHosts: true,
+  },
+  
   async headers() {
     return [
       {
@@ -30,7 +35,7 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY',
+            value: 'SAMEORIGIN',
           },
           {
             key: 'Referrer-Policy',
