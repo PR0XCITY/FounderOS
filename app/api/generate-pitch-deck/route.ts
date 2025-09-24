@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { type NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
@@ -42,8 +43,9 @@ export async function POST(request: NextRequest) {
       competitive_advantage,
     })
 
-    // Save to database
-    const { data, error } = await supabase
+    // Save to database using admin client
+    const adminClient = createAdminClient()
+    const { data, error } = await adminClient
       .from("pitch_decks")
       .insert({
         user_id: user.id,
