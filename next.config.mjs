@@ -15,10 +15,8 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
-  // Replit environment configuration
-  experimental: {
-    allowedHosts: true,
-  },
+  // Replit environment configuration - allow all dev origins for proxy
+  allowedDevOrigins: ['*'],
   
   async headers() {
     return [
