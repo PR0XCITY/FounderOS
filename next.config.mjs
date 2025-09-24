@@ -23,8 +23,8 @@ const nextConfig = {
     ];
   },
   // Allow requests from all hosts for Replit proxy support
-  experimental: {
-    allowedOrigins: ["*"],
+  async rewrites() {
+    return [];
   },
 }
 
