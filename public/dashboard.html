@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FounderOS — Dashboard</title>
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0b0e14;color:#e6edf3}
+    header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #22304a;background:#101623}
+    main{padding:20px;max-width:960px;margin:0 auto}
+    button{border:0;background:#4c8fff;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    section{border:1px solid #22304a;border-radius:12px;padding:16px;margin:16px 0;background:#101623}
+    label{display:block;font-size:13px;margin:8px 0 6px;color:#c8d4e3}
+    input, textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #2a3a59;background:#0f1420;color:#e6edf3}
+  </style>
+</head>
+<body>
+  <header>
+    <div>FounderOS</div>
+    <div>
+      <span id="user-email"></span>
+      <button id="logout">Logout</button>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>Validate Idea (calls /api/validate-idea)</h2>
+      <form id="validate-form">
+        <label>Title</label>
+        <input id="v-title" required />
+        <label>Description</label>
+        <textarea id="v-desc" required></textarea>
+        <label>Problem Statement</label>
+        <textarea id="v-problem" required></textarea>
+        <label>Solution Approach</label>
+        <textarea id="v-solution" required></textarea>
+        <label>Target Market</label>
+        <input id="v-market" required />
+        <button type="submit">Validate</button>
+      </form>
+      <pre id="validate-output"></pre>
+    </section>
+
+    <section>
+      <h2>Generate MVP (calls /api/generate-mvp)</h2>
+      <form id="mvp-form">
+        <label>Name</label>
+        <input id="m-name" required />
+        <label>Description</label>
+        <textarea id="m-desc" required></textarea>
+        <label>Features (comma-separated)</label>
+        <input id="m-features" placeholder="Dashboard, User Profiles" />
+        <label>Tech Stack (comma-separated)</label>
+        <input id="m-tech" placeholder="nextjs, react-native" />
+        <label>Idea ID (optional)</label>
+        <input id="m-idea-id" />
+        <button type="submit">Generate</button>
+      </form>
+      <pre id="mvp-output"></pre>
+    </section>
+
+    <section>
+      <h2>Generate Pitch Deck (calls /api/generate-pitch-deck)</h2>
+      <form id="pitch-form">
+        <label>Title</label>
+        <input id="p-title" required />
+        <label>Description</label>
+        <textarea id="p-desc" required></textarea>
+        <label>Pitch Type</label>
+        <input id="p-type" required />
+        <label>Funding Goal</label>
+        <input id="p-goal" required />
+        <label>Business Model</label>
+        <input id="p-model" required />
+        <label>Target Market</label>
+        <input id="p-market" required />
+        <label>Team Info</label>
+        <textarea id="p-team" required></textarea>
+        <label>Traction Metrics</label>
+        <textarea id="p-traction" required></textarea>
+        <label>Competitive Advantage</label>
+        <textarea id="p-adv" required></textarea>
+        <label>Idea ID (optional)</label>
+        <input id="p-idea-id" />
+        <label>MVP ID (optional)</label>
+        <input id="p-mvp-id" />
+        <button type="submit">Generate</button>
+      </form>
+      <pre id="pitch-output"></pre>
+    </section>
+  </main>
+
+  <script src="/env.js"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    const supabase = createClient(window.ENV.SUPABASE_URL, window.ENV.SUPABASE_ANON_KEY);
+
+    // Guard: require session
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = '/login.html';
+    }
+
+    // Show user email
+    document.getElementById('user-email').textContent = session?.user?.email ?? '';
+
+    // Logout
+    document.getElementById('logout').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = '/login.html';
+    });
+
+    async function authedFetch(url, body) {
+      // Include cookies so Next middleware + server can see the session
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body),
+      });
+    }
+
+    // Validate Idea form
+    document.getElementById('validate-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        title: (document.getElementById('v-title')).value,
+        description: (document.getElementById('v-desc')).value,
+        problem_statement: (document.getElementById('v-problem')).value,
+        solution_approach: (document.getElementById('v-solution')).value,
+        target_market: (document.getElementById('v-market')).value,
+      };
+      const res = await authedFetch('/api/validate-idea', payload);
+      const text = await res.text();
+      document.getElementById('validate-output').textContent = text;
+    });
+
+    // Generate MVP form
+    document.getElementById('mvp-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: (document.getElementById('m-name')).value,
+        description: (document.getElementById('m-desc')).value,
+        features: (document.getElementById('m-features')).value.split(',').map(s => s.trim()).filter(Boolean),
+        tech_stack: (document.getElementById('m-tech')).value.split(',').map(s => s.trim()).filter(Boolean),
+        custom_requirements: '',
+        idea_id: (document.getElementById('m-idea-id')).value || null,
+      };
+      const res = await authedFetch('/api/generate-mvp', payload);
+      const text = await res.text();
+      document.getElementById('mvp-output').textContent = text;
+    });
+
+    // Generate Pitch Deck form
+    document.getElementById('pitch-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        title: (document.getElementById('p-title')).value,
+        description: (document.getElementById('p-desc')).value,
+        pitch_type: (document.getElementById('p-type')).value,
+        funding_goal: (document.getElementById('p-goal')).value,
+        business_model: (document.getElementById('p-model')).value,
+        target_market: (document.getElementById('p-market')).value,
+        team_info: (document.getElementById('p-team')).value,
+        traction_metrics: (document.getElementById('p-traction')).value,
+        competitive_advantage: (document.getElementById('p-adv')).value,
+        idea_id: (document.getElementById('p-idea-id')).value || null,
+        mvp_id: (document.getElementById('p-mvp-id')).value || null,
+      };
+      const res = await authedFetch('/api/generate-pitch-deck', payload);
+      const text = await res.text();
+      document.getElementById('pitch-output').textContent = text;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FounderOS</title>
+  <style>body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0b0e14;color:#e6edf3;display:grid;place-items:center;height:100vh}a{color:#4c8fff}</style>
+</head>
+<body>
+  <div>
+    <h1>FounderOS</h1>
+    <p id="status">Checking session…</p>
+    <p><a href="/login.html">Go to Login</a></p>
+  </div>
+  <script src="/env.js"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    const supabase = createClient(window.ENV.SUPABASE_URL, window.ENV.SUPABASE_ANON_KEY);
+    const el = document.getElementById('status');
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      el.textContent = 'Redirecting to dashboard…';
+      window.location.href = '/dashboard.html';
+    } else {
+      el.textContent = 'No session. Please login.';
+    }
+  </script>
+</body>
+</html>
