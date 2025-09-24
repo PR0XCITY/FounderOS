@@ -1,0 +1,117 @@
+Skip to content
+
+Abhyudai Srivastava's projects
+
+Abhyudai Srivastava's projects
+Hobby
+
+founder-os
+
+    FAJwnoHoD
+
+Deployment Details
+Build Failed
+
+No entrypoint found. Searched for: - app.{js,cjs,mjs,ts,cts,mts} - index.{js,cjs,mjs,ts,cts,mts} - server.{js,cjs,mjs,ts,cts,mts} - src/app.{js,cjs,mjs,ts,cts,mts} - src/index.{js,cjs,mjs,ts,cts,mts} - src/server.{js,cjs,mjs,ts,cts,mts}
+Created
+github/PR0XCITY
+PR0XCITY1m ago
+Status
+Error
+Latest
+Duration
+57sJust now
+Environment
+Production
+Domains
+founder-os-git-main-abhyudai-srivastavas-projects.vercel.app
+founder-ajt2mbjry-abhyudai-srivastavas-projects.vercel.app
+Source
+main
+bf95aa0P
+Build Logs
+57s
+108 lines
+CtrlF
+04:48:18.644
+ ├ ƒ /dashboard/pitch/[id]/edit           6.15 kB         181 kB
+04:48:18.645
+ ├ ƒ /dashboard/pitch/[id]/present        4.49 kB         151 kB
+04:48:18.645
+ ├ ○ /dashboard/pitch/new                 9.16 kB         179 kB
+04:48:18.645
+ ├ ○ /growth                              204 B          96.2 kB
+04:48:18.645
+ ├ ○ /legal                               204 B          96.2 kB
+04:48:18.645
+ ├ ○ /network                             204 B          96.2 kB
+04:48:18.645
+ └ ○ /pricing                             204 B          96.2 kB
+04:48:18.651
+ + First Load JS shared by all            87.3 kB
+04:48:18.651
+   ├ chunks/117-de18c4261f3f35fe.js       31.7 kB
+04:48:18.651
+   ├ chunks/fd9d1056-9e191f0896c1d560.js  53.6 kB
+04:48:18.651
+   └ other shared chunks (total)          1.97 kB
+04:48:18.651
+ 
+04:48:18.651
+ 
+04:48:18.651
+ ƒ Middleware                             62.6 kB
+04:48:18.651
+ 
+04:48:18.651
+ ○  (Static)   prerendered as static content
+04:48:18.651
+ ƒ  (Dynamic)  server-rendered on demand
+04:48:18.651
+ 
+04:48:18.689
+ Error: No entrypoint found. Searched for:
+04:48:18.689
+ - app.{js,cjs,mjs,ts,cts,mts}
+04:48:18.689
+ - index.{js,cjs,mjs,ts,cts,mts}
+04:48:18.689
+ - server.{js,cjs,mjs,ts,cts,mts}
+04:48:18.689
+ - src/app.{js,cjs,mjs,ts,cts,mts}
+04:48:18.689
+ - src/index.{js,cjs,mjs,ts,cts,mts}
+04:48:18.689
+ - src/server.{js,cjs,mjs,ts,cts,mts}
+Deployment Summary
+Assigning Custom Domains
+
+Runtime Logs
+
+View and debug runtime logs & errors
+
+Observability
+
+Monitor app health & performance
+
+Speed Insights
+No Data
+
+Performance metrics from real users
+
+Web Analytics
+Not Enabled
+
+Analyze visitors & traffic in real-time
+Home
+Docs
+Guides
+Help
+Contact
+
+Loading status…
+Select a display theme:
+system
+light
+dark
+founder-os – Deployment Overview – Vercel
