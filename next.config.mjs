@@ -9,9 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Allow all hosts for Replit proxy support
+  // Allow cross-origin requests for Replit proxy support
   experimental: {
-    allowedHosts: true,
+    allowedDevOrigins: ['*'],
   },
   async headers() {
     return [
