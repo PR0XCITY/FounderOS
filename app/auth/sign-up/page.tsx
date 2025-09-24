@@ -22,7 +22,6 @@ export default function SignUpPage() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
     setIsLoading(true)
     setError(null)
 
@@ -33,6 +32,7 @@ export default function SignUpPage() {
     }
 
     try {
+      const supabase = createClient()
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -46,7 +46,11 @@ export default function SignUpPage() {
       if (error) throw error
       router.push("/auth/sign-up-success")
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred")
+      if (error instanceof Error && error.message.includes('Supabase credentials not configured')) {
+        setError("Authentication service is not configured. Please contact support.")
+      } else {
+        setError(error instanceof Error ? error.message : "An error occurred")
+      }
     } finally {
       setIsLoading(false)
     }
