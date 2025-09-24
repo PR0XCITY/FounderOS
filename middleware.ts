@@ -3,11 +3,17 @@ import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 
 export async function middleware(request: NextRequest) {
-  // Temporarily bypass Supabase auth for development
+  // Handle missing Supabase credentials gracefully during development
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return NextResponse.next({
+      request,
+    });
+  }
+  
   try {
     return await updateSession(request)
   } catch (error) {
-    console.warn("Supabase middleware error (bypassing):", error);
+    console.warn("Supabase middleware error:", error);
     return NextResponse.next({
       request,
     });
