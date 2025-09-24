@@ -8,11 +8,13 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
   },
-  // Allow cross-origin requests for Replit proxy support
-  experimental: {
-    allowedDevOrigins: ['*'],
-  },
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  
   async headers() {
     return [
       {
@@ -22,13 +24,21 @@ const nextConfig = {
             key: 'Cache-Control',
             value: 'no-cache, no-store, must-revalidate',
           },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
         ],
       },
     ];
-  },
-  // Allow requests from all hosts for Replit proxy support
-  async rewrites() {
-    return [];
   },
 }
 

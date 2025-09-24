@@ -1,11 +1,22 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
-    "app/api/**": {
+    "app/api/**/*.ts": {
+      "memory": 1024,
       "maxDuration": 30
+    },
+    "app/**/*.tsx": {
+      "memory": 512,
+      "maxDuration": 15
     }
+  },
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "env": {
+    "GEMINI_API_KEY": "@gemini_api_key"
   }
 }
